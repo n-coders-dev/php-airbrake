@@ -45,34 +45,20 @@ class Connection implements Connection\ConnectionInterface
      **/
     public function send(Notice $notice)
     {
-        $curl = curl_init();
-
         $xml = $notice->toXml($this->configuration);
 
-        curl_setopt($curl, CURLOPT_URL, $this->configuration->get('apiEndPoint'));
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_TIMEOUT, $this->configuration->get('timeout'));
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $this->headers);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        $opts = array('http' =>
+            array(
+                'method'  => 'POST',
+                'header'  => $this->headers,
+                'content' => $xml
+            )
+        );
 
-        // HTTP proxy support
-        $proxyHost = $this->configuration->get('proxyHost');
-        $proxyUser = $this->configuration->get('proxyUser');
+        $context  = stream_context_create($opts);
 
-        if (null !== $proxyHost) {
-            curl_setopt($curl, CURLOPT_PROXY, $proxyHost.':'.$this->configuration->get('proxyPort'));
-            if (null !== $proxyUser) {
-                curl_setopt($curl, CURLOPT_PROXYUSERPWD, $proxyUser.':'.$this->configuration->get('proxyPass'));
-            }
-        }
+        $result = file_get_contents($this->configuration->apiEndPoint, false, $context);
 
-        $return = curl_exec($curl);
-        curl_close($curl);
-
-        return $return;
+        return $result;
     }
 }
