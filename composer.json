@@ -1,14 +1,14 @@
 {
-    "name": "dbtlr/php-airbrake",
+    "name": "n-coders-dev/php-airbrake",
     "type": "library",
-    "description": "A PHP 5.3 library for sending errors to the Airbrake.io service.",
+    "description": "A PHP 5.3 library for sending errors to the Airbrake.io service. Fork from https://github.com/dbtlr/php-airbrake",
     "keywords": ["airbrake", "exceptions", "errors", "logging"],
-    "homepage": "https://github.com/dbtlr/php-airbrake",
+    "homepage": "https://github.com/n-coders-dev/php-airbrake",
     "license": "MIT",
     "authors": [{
-        "name": "Drew Butler",
-        "email": "hi@dbtlr.com",
-        "homepage": "http://dbtlr.com"
+        "name": "Adam Cooper",
+        "email": "adam@n-coders.co.uk",
+        "homepage": "https://www.n-coders.co.uk"
     }],
 
     "require-dev": {
